@@ -156,6 +156,43 @@
             letter-spacing: 0.5px;
         }
 
+        .year-filter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 0 22px;
+        }
+
+        .year-filter label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .year-filter select {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1.5px solid var(--gold-deep);
+            background: #ffffff;
+            color: #1f2937;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .year-filter select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(246, 205, 91, 0.35);
+        }
+
+        .results-empty {
+            text-align: center;
+            color: #6b7280;
+            font-size: 15px;
+            grid-column: 1 / -1;
+        }
+
         .results-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -485,8 +522,8 @@
 
         <aside class="winner-card" aria-label="Resultado destacado">
             <h3>Numero ganador</h3>
-            <div class="winner-balls">@foreach (['02', '11', '19', '27', '40', '05'] as $winnerNumber)<span @class(['winner-ball', 'winner-ball--super' => $loop->last])>{{ $winnerNumber }}</span>@endforeach</div>
-            <p class="winner-draw">Sorteo: 2531</p>
+            <div class="winner-balls">@foreach ($draw->mainNumbers() as $winnerNumber)<span class="winner-ball">{{ str_pad($winnerNumber, 2, '0', STR_PAD_LEFT) }}</span>@endforeach<span class="winner-ball winner-ball--super">{{ str_pad($draw->super_number, 2, '0', STR_PAD_LEFT) }}</span></div>
+            <p class="winner-draw">Sorteo: {{ $draw->draw_number }}</p>
         </aside>
     </main>
 
@@ -518,54 +555,43 @@
         </div>
     </section>
 
-    <section class="white-block white-block-blank" aria-label="Modulo de resultados por mes">
+    <section class="white-block white-block-blank" id="resultados-anteriores" aria-label="Modulo de resultados por mes">
         <div class="results-shell">
             <h3 class="results-title">Resultados Anteriores</h3>
 
+            @if ($years->isNotEmpty())
+                <form method="GET" action="{{ route('landing') }}#resultados-anteriores" class="year-filter">
+                    <label for="anio">Filtrar por año</label>
+                    <select name="anio" id="anio" onchange="this.form.submit()">
+                        @foreach ($years as $year)
+                            <option value="{{ $year }}" @selected($year == $selectedYear)>{{ $year }}</option>
+                        @endforeach
+                    </select>
+                </form>
+            @endif
+
             <div class="results-grid">
-                <article class="month-card">
-                    <h4>Julio 2026</h4>
-                    <ul>
-                        <li><span class="draw-date">2026-07-01</span><span class="draw-numbers">15 24 28 30 11</span></li>
-                        <li><span class="draw-date">2026-07-04</span><span class="draw-numbers">03 07 21 40 02</span></li>
-                        <li><span class="draw-date">2026-07-08</span><span class="draw-numbers">02 23 39 40 04</span></li>
-                        <li><span class="draw-date">2026-07-11</span><span class="draw-numbers">10 15 19 31 13</span></li>
-                        <li><span class="draw-date">2026-07-15</span><span class="draw-numbers">11 20 36 61 01</span></li>
-                    </ul>
-                </article>
-
-                <article class="month-card">
-                    <h4>Junio 2026</h4>
-                    <ul>
-                        <li><span class="draw-date">2026-06-03</span><span class="draw-numbers">11 20 37 38 02</span></li>
-                        <li><span class="draw-date">2026-06-06</span><span class="draw-numbers">04 10 13 34 07</span></li>
-                        <li><span class="draw-date">2026-06-10</span><span class="draw-numbers">13 16 99 30 10</span></li>
-                        <li><span class="draw-date">2026-06-17</span><span class="draw-numbers">05 17 27 30 11</span></li>
-                        <li><span class="draw-date">2026-06-27</span><span class="draw-numbers">02 11 25 32 15</span></li>
-                    </ul>
-                </article>
-
-                <article class="month-card">
-                    <h4>Mayo 2026</h4>
-                    <ul>
-                        <li><span class="draw-date">2026-05-02</span><span class="draw-numbers">09 18 19 22 08</span></li>
-                        <li><span class="draw-date">2026-05-06</span><span class="draw-numbers">11 12 20 30 03</span></li>
-                        <li><span class="draw-date">2026-05-13</span><span class="draw-numbers">20 23 25 28 84</span></li>
-                        <li><span class="draw-date">2026-05-20</span><span class="draw-numbers">04 17 23 39 12</span></li>
-                        <li><span class="draw-date">2026-05-27</span><span class="draw-numbers">08 23 37 94 14</span></li>
-                    </ul>
-                </article>
-
-                <article class="month-card">
-                    <h4>Abril 2026</h4>
-                    <ul>
-                        <li><span class="draw-date">2026-04-01</span><span class="draw-numbers">09 11 15 28 04</span></li>
-                        <li><span class="draw-date">2026-04-08</span><span class="draw-numbers">07 18 29 33 11</span></li>
-                        <li><span class="draw-date">2026-04-15</span><span class="draw-numbers">11 15 20 25 09</span></li>
-                        <li><span class="draw-date">2026-04-22</span><span class="draw-numbers">05 22 25 27 14</span></li>
-                        <li><span class="draw-date">2026-04-29</span><span class="draw-numbers">04 12 13 31 08</span></li>
-                    </ul>
-                </article>
+                @forelse ($previousDraws as $monthKey => $monthDraws)
+                    <article class="month-card">
+                        <h4>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m', $monthKey)->locale('es')->translatedFormat('F Y')) }}</h4>
+                        <ul>
+                            @foreach ($monthDraws as $previousDraw)
+                                <li>
+                                    <span class="draw-date">{{ $previousDraw->draw_date->format('Y-m-d') }}</span>
+                                    <span class="draw-numbers">{{ collect($previousDraw->numbers())->map(fn ($n) => str_pad($n, 2, '0', STR_PAD_LEFT))->implode(' ') }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </article>
+                @empty
+                    <p class="results-empty">
+                        @if ($selectedYear)
+                            Aun no hay resultados anteriores para {{ $selectedYear }}.
+                        @else
+                            Aun no hay resultados anteriores registrados.
+                        @endif
+                    </p>
+                @endforelse
             </div>
         </div>
     </section>
