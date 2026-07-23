@@ -25,6 +25,7 @@ class PreviousDrawController extends Controller
             'number_3' => ['required', 'integer', 'between:0,99'],
             'number_4' => ['required', 'integer', 'between:0,99'],
             'number_5' => ['required', 'integer', 'between:0,99'],
+            'super_number' => ['required', 'integer', 'between:0,99'],
         ]);
 
         PreviousDraw::create($validated);

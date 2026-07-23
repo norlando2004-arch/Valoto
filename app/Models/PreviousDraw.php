@@ -8,11 +8,13 @@ class PreviousDraw extends Model
 {
     protected $fillable = [
         'draw_date',
+        'draw_number',
         'number_1',
         'number_2',
         'number_3',
         'number_4',
         'number_5',
+        'super_number',
     ];
 
     protected $casts = [

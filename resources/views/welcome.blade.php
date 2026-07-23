@@ -39,7 +39,7 @@
             align-items: center;
             position: relative;
             isolation: isolate;
-            background-image: url('{{ asset('images/imagenvaloto1.webp') }}');
+            background-image: url('{{ $backgrounds['hero'] }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -58,7 +58,7 @@
             min-height: 260px;
             margin: 0;
             background-color: #ffffff;
-            background-image: url("{{ asset('images/premio mayor.png') }}");
+            background-image: url("{{ $backgrounds['jackpot'] }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -134,7 +134,7 @@
         .white-block-blank {
             background:
                 linear-gradient(0deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.56)),
-                url("{{ asset('images/resultados.png') }}");
+                url("{{ $backgrounds['resultados'] }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -249,6 +249,11 @@
             text-align: right;
         }
 
+        .draw-super {
+            color: #b3161a;
+            margin-left: 4px;
+        }
+
         .content-shell {
             width: min(1120px, 100%);
             margin: 0 auto;
@@ -358,6 +363,28 @@
             box-shadow: 0 10px 26px rgba(34, 26, 7, 0.36);
         }
 
+        .admin-shortcut {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 50;
+            text-decoration: none;
+            background: linear-gradient(180deg, #ffd973, var(--gold));
+            color: #3f2a08;
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid var(--gold-deep);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .admin-shortcut:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+        }
+
         .hero-copy {
             max-width: 800px;
             padding-left: clamp(8px, 4vw, 64px);
@@ -418,7 +445,7 @@
             border: 1px solid #8a5a06;
             color: #1a1205;
             font-weight: 800;
-            font-size: clamp(13px, 2vw, 19px);
+            font-size: clamp(19px, 3.5vw, 29px);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35), inset 0 -4px 6px rgba(0, 0, 0, 0.15), inset 0 3px 5px rgba(255, 255, 255, 0.6);
             text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
         }
@@ -442,6 +469,171 @@
             border-radius: 10px;
             background: rgba(0, 0, 0, 0.14);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- Animaciones e interaccion --- */
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoDrop {
+            from {
+                opacity: 0;
+                transform: translateY(-16px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes ballPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.4) translateY(12px);
+            }
+            65% {
+                opacity: 1;
+                transform: scale(1.12) translateY(-3px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .corner-logo {
+            animation: logoDrop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .corner-logo--left:hover {
+            transform: scale(1.08) rotate(-4deg);
+        }
+
+        .corner-logo--right:hover {
+            transform: scale(1.08) rotate(4deg);
+        }
+
+        .hero-copy .cta {
+            animation: fadeSlideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+        }
+
+        .winner-card {
+            animation: fadeSlideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+        }
+
+        .winner-ball {
+            animation: ballPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            transition: transform 0.5s cubic-bezier(0.45, 0, 0.2, 1), box-shadow 0.3s ease;
+        }
+
+        .winner-ball:hover {
+            transform: perspective(320px) rotateY(360deg) scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.15), inset 0 3px 5px rgba(255, 255, 255, 0.6);
+        }
+
+        .jackpot-overlay h2 {
+            transition: text-shadow 0.3s ease;
+        }
+
+        .extra-block:hover .jackpot-overlay h2 {
+            text-shadow: 0 0 22px rgba(255, 215, 111, 0.7), 0 8px 20px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Letreros y textos: pequeño "salto" individual al pasar el mouse */
+        .jackpot-overlay h2,
+        .jackpot-overlay p,
+        .info-title,
+        .info-subtitle,
+        .info-description,
+        .results-title,
+        .winner-card h3,
+        .winner-draw,
+        .month-card h4 {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: default;
+        }
+
+        .jackpot-overlay h2:hover,
+        .jackpot-overlay p:hover,
+        .info-title:hover,
+        .info-subtitle:hover,
+        .info-description:hover,
+        .results-title:hover,
+        .winner-card h3:hover,
+        .winner-draw:hover,
+        .month-card h4:hover {
+            transform: scale(1.045) translateY(-2px);
+        }
+
+        .feature-image {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .image-panel:hover .feature-image {
+            transform: scale(1.02);
+            box-shadow: 0 26px 60px rgba(7, 3, 15, 0.55);
+        }
+
+        .month-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .month-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            border-color: var(--gold-deep);
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .corner-logo,
+            .hero-copy .cta,
+            .winner-card,
+            .winner-ball,
+            .winner-ball:hover {
+                animation: none !important;
+            }
+
+            .reveal-on-scroll {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            .winner-ball:hover,
+            .month-card:hover,
+            .image-panel:hover .feature-image,
+            .jackpot-overlay h2:hover,
+            .jackpot-overlay p:hover,
+            .info-title:hover,
+            .info-subtitle:hover,
+            .info-description:hover,
+            .results-title:hover,
+            .winner-card h3:hover,
+            .winner-draw:hover,
+            .month-card h4:hover {
+                transform: none;
+            }
         }
 
         @media (max-width: 900px) {
@@ -507,57 +699,55 @@
     </style>
 </head>
 <body>
+    @auth
+        @if (auth()->user()->isAdmin())
+            <a href="{{ route('configuracion.edit') }}" class="admin-shortcut">Configuracion</a>
+        @endif
+    @endauth
+
     <main class="card">
         <img src="{{ asset('images/logo.png') }}" alt="Gran Loto Colombia" class="corner-logo corner-logo--left">
         <img src="{{ asset('images/logo.png') }}" alt="Gran Loto Colombia" class="corner-logo corner-logo--right">
 
         <section class="hero-copy">
-            <h1>La fortuna llama<br>a tu puerta</h1>
-            <p>
-                Participa en nuestros sorteos y vive la adrenalina de ganar.
-                Esta version optimizada busca una apariencia promocional de alta gama, inspirada en las mejores referencias.
-            </p>
+            <h1>{{ $texts['hero']['title'] }}</h1>
+            <p>{{ $texts['hero']['body'] }}</p>
             <a href="#" class="cta">Verificar Sorteos</a>
         </section>
 
         <aside class="winner-card" aria-label="Resultado destacado">
             <h3>Numero ganador</h3>
-            <div class="winner-balls">@foreach ($draw->mainNumbers() as $winnerNumber)<span class="winner-ball">{{ str_pad($winnerNumber, 2, '0', STR_PAD_LEFT) }}</span>@endforeach<span class="winner-ball winner-ball--super">{{ str_pad($draw->super_number, 2, '0', STR_PAD_LEFT) }}</span></div>
+            <div class="winner-balls">@foreach ($draw->mainNumbers() as $winnerNumber)<span class="winner-ball" style="animation-delay: {{ 0.3 + $loop->index * 0.08 }}s">{{ str_pad($winnerNumber, 2, '0', STR_PAD_LEFT) }}</span>@endforeach<span class="winner-ball winner-ball--super" style="animation-delay: {{ 0.3 + count($draw->mainNumbers()) * 0.08 }}s">{{ str_pad($draw->super_number, 2, '0', STR_PAD_LEFT) }}</span></div>
             <p class="winner-draw">Sorteo: {{ $draw->draw_number }}</p>
         </aside>
     </main>
 
     <section class="extra-block" aria-label="Bloque de premio mayor">
-        <div class="jackpot-overlay">
-            <h2>PREMIO MAYOR!</h2>
-            <p>4.150 Millones de Pesos</p>
+        <div class="jackpot-overlay reveal-on-scroll">
+            <h2>{{ $texts['jackpot']['title'] }}</h2>
+            <p>{{ $texts['jackpot']['body'] }}</p>
             <span class="jackpot-chip">Sorteo destacado</span>
         </div>
     </section>
 
     <section class="white-block" aria-label="Modulo informativo de la landing">
-        <div class="content-shell">
+        <div class="content-shell reveal-on-scroll">
             <aside class="image-panel" aria-label="Imagen de la promocion">
-                <img class="feature-image" src="{{ asset('images/imagenvaloto1.webp') }}" alt="Imagen promocional de la landing">
+                <img class="feature-image" src="{{ $backgrounds['promo'] }}" alt="Imagen promocional de la landing">
             </aside>
 
             <article class="info-panel">
-                <h3 class="info-title">GRANLOTO MILLONARIA</h3>
+                <h3 class="info-title">{{ $texts['promo']['title'] }}</h3>
                 <p class="info-subtitle">PLATAFORMA SEGURA DE SORTEOS VIRTUALES</p>
                 <div class="info-divider" aria-hidden="true"></div>
-                <p class="info-description">
-                    GRANLOTO MILLONARIA es una plataforma dedicada a sorteos virtuales,
-                    pensada para que todos puedan participar de forma sencilla. Te ofrecemos
-                    una experiencia clara, opciones de premios destacadas y promociones que
-                    hacen cada jugada mas emocionante.
-                </p>
+                <p class="info-description">{{ $texts['promo']['body'] }}</p>
             </article>
         </div>
     </section>
 
     <section class="white-block white-block-blank" id="resultados-anteriores" aria-label="Modulo de resultados por mes">
         <div class="results-shell">
-            <h3 class="results-title">Resultados Anteriores</h3>
+            <h3 class="results-title reveal-on-scroll">Resultados Anteriores</h3>
 
             @if ($years->isNotEmpty())
                 <form method="GET" action="{{ route('landing') }}#resultados-anteriores" class="year-filter">
@@ -572,13 +762,18 @@
 
             <div class="results-grid">
                 @forelse ($previousDraws as $monthKey => $monthDraws)
-                    <article class="month-card">
+                    <article class="month-card reveal-on-scroll" style="transition-delay: {{ $loop->index * 0.08 }}s">
                         <h4>{{ ucfirst(\Carbon\Carbon::createFromFormat('Y-m', $monthKey)->locale('es')->translatedFormat('F Y')) }}</h4>
                         <ul>
                             @foreach ($monthDraws as $previousDraw)
                                 <li>
                                     <span class="draw-date">{{ $previousDraw->draw_date->format('Y-m-d') }}</span>
-                                    <span class="draw-numbers">{{ collect($previousDraw->numbers())->map(fn ($n) => str_pad($n, 2, '0', STR_PAD_LEFT))->implode(' ') }}</span>
+                                    <span class="draw-numbers">
+                                        {{ collect($previousDraw->numbers())->map(fn ($n) => str_pad($n, 2, '0', STR_PAD_LEFT))->implode(' ') }}
+                                        @if (! is_null($previousDraw->super_number))
+                                            <span class="draw-super">{{ str_pad($previousDraw->super_number, 2, '0', STR_PAD_LEFT) }}</span>
+                                        @endif
+                                    </span>
                                 </li>
                             @endforeach
                         </ul>
@@ -595,5 +790,39 @@
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Una vez termina la animacion de entrada, se libera "transform"
+            // para que las transiciones de :hover (giro, sobresalto) funcionen.
+            var entranceTargets = document.querySelectorAll(
+                '.corner-logo, .hero-copy .cta, .winner-card, .winner-ball'
+            );
+
+            entranceTargets.forEach(function (el) {
+                el.addEventListener('animationend', function () {
+                    el.style.animation = 'none';
+                }, { once: true });
+            });
+
+            var revealTargets = document.querySelectorAll('.reveal-on-scroll');
+
+            if (!('IntersectionObserver' in window) || revealTargets.length === 0) {
+                revealTargets.forEach(function (el) { el.classList.add('is-visible'); });
+                return;
+            }
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealTargets.forEach(function (el) { observer.observe(el); });
+        });
+    </script>
 </body>
 </html>

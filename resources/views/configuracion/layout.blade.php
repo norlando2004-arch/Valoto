@@ -33,14 +33,64 @@
             background: linear-gradient(180deg, var(--bg-dark), var(--bg-mid));
             color: #f5f2cf;
             padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-user {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(245, 242, 207, 0.15);
+        }
+
+        .sidebar-user-name {
+            margin: 0 0 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e5f4ea;
+        }
+
+        .sidebar-logout {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            color: #f5f2cf;
+            border: 1px solid rgba(245, 242, 207, 0.25);
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sidebar-logout:hover {
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .sidebar-brand {
             font-size: 20px;
             font-weight: 800;
             color: var(--gold);
-            margin: 0 0 32px;
+            margin: 0 0 20px;
             letter-spacing: 0.5px;
+        }
+
+        .sidebar-back {
+            display: inline-block;
+            margin: 0 0 24px;
+            color: #e5f4ea;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.85;
+        }
+
+        .sidebar-back:hover {
+            opacity: 1;
+            text-decoration: underline;
         }
 
         .sidebar-nav {
@@ -272,6 +322,9 @@
             .sidebar {
                 width: 100%;
                 padding: 20px;
+                position: static;
+                height: auto;
+                overflow-y: visible;
             }
 
             .balls-grid {
@@ -293,10 +346,23 @@
 <body>
     <aside class="sidebar">
         <p class="sidebar-brand">Valoto Admin</p>
+
+        <a href="{{ route('landing') }}" class="sidebar-back">&larr; Volver al inicio</a>
+
         <ul class="sidebar-nav">
             <li><a href="{{ route('configuracion.edit') }}" @class(['active' => request()->routeIs('configuracion.edit')])>Resultado del sorteo</a></li>
             <li><a href="{{ route('configuracion.historial.index') }}" @class(['active' => request()->routeIs('configuracion.historial.*')])>Resultados anteriores</a></li>
+            <li><a href="{{ route('configuracion.imagenes.edit') }}" @class(['active' => request()->routeIs('configuracion.imagenes.*')])>Imagenes de fondo</a></li>
+            <li><a href="{{ route('configuracion.textos.edit') }}" @class(['active' => request()->routeIs('configuracion.textos.*')])>Textos del landing</a></li>
         </ul>
+
+        <div class="sidebar-user">
+            <p class="sidebar-user-name">{{ auth()->user()->name }}</p>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="sidebar-logout">Cerrar sesion</button>
+            </form>
+        </div>
     </aside>
 
     <main class="content">

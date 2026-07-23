@@ -13,7 +13,7 @@
 
             <fieldset>
                 <legend>Numeros del sorteo</legend>
-                <div class="balls-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="balls-grid" style="grid-template-columns: repeat(6, 1fr);">
                     @for ($i = 1; $i <= 5; $i++)
                         <div class="field">
                             <label for="number_{{ $i }}">Bola {{ $i }}</label>
@@ -28,6 +28,19 @@
                             >
                         </div>
                     @endfor
+
+                    <div class="field super">
+                        <label for="super_number">Superbalota</label>
+                        <input
+                            type="number"
+                            min="0"
+                            max="99"
+                            id="super_number"
+                            name="super_number"
+                            value="{{ old('super_number') }}"
+                            required
+                        >
+                    </div>
                 </div>
             </fieldset>
 
@@ -61,6 +74,7 @@
             <thead>
                 <tr>
                     <th>Fecha</th>
+                    <th>Sorteo</th>
                     <th>Numeros</th>
                     <th></th>
                 </tr>
@@ -69,7 +83,13 @@
                 @forelse ($previousDraws as $previousDraw)
                     <tr>
                         <td>{{ $previousDraw->draw_date->format('Y-m-d') }}</td>
-                        <td>{{ collect($previousDraw->numbers())->map(fn ($n) => str_pad($n, 2, '0', STR_PAD_LEFT))->implode(' ') }}</td>
+                        <td>{{ $previousDraw->draw_number ?? '-' }}</td>
+                        <td>
+                            {{ collect($previousDraw->numbers())->map(fn ($n) => str_pad($n, 2, '0', STR_PAD_LEFT))->implode(' ') }}
+                            @if (! is_null($previousDraw->super_number))
+                                <strong>+ {{ str_pad($previousDraw->super_number, 2, '0', STR_PAD_LEFT) }}</strong>
+                            @endif
+                        </td>
                         <td>
                             <form
                                 class="delete-form"
@@ -85,7 +105,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="empty-row">Aun no has agregado resultados anteriores.</td>
+                        <td colspan="4" class="empty-row">Aun no has agregado resultados anteriores.</td>
                     </tr>
                 @endforelse
             </tbody>
