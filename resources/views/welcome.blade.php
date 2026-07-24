@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valoto | Landing</title>
+    <title>GRAN LOTO COLOMBIA</title>
     <style>
         :root {
             --bg-dark: #0f4c3a;

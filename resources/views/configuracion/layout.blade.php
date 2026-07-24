@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Configuracion') | Valoto</title>
+    <title>@yield('title', 'Configuracion') | Baloto</title>
     <style>
         :root {
             --bg-dark: #0f4c3a;
@@ -345,7 +345,7 @@
 </head>
 <body>
     <aside class="sidebar">
-        <p class="sidebar-brand">Valoto Admin</p>
+        <p class="sidebar-brand">Panel Administrador</p>
 
         <a href="{{ route('landing') }}" class="sidebar-back">&larr; Volver al inicio</a>
 

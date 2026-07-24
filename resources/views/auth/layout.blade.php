@@ -133,7 +133,7 @@
 </head>
 <body>
     <div class="auth-card">
-        <p class="auth-brand">Valoto Admin</p>
+        <p class="auth-brand">Baloto Admin</p>
         <h1>@yield('heading')</h1>
 
         @if ($errors->any())
