@@ -119,12 +119,13 @@
 
         .content {
             flex: 1;
+            min-width: 0;
             padding: 40px clamp(20px, 4vw, 56px);
         }
 
         .content-header h1 {
             margin: 0 0 4px;
-            font-size: 26px;
+            font-size: clamp(20px, 3vw, 26px);
         }
 
         .content-header p {
@@ -212,7 +213,8 @@
             color: var(--text-main);
         }
 
-        .field input {
+        .field input,
+        .field select {
             width: 100%;
             padding: 10px 12px;
             border-radius: 8px;
@@ -222,7 +224,8 @@
             font-weight: 700;
         }
 
-        .field input:focus {
+        .field input:focus,
+        .field select:focus {
             outline: none;
             border-color: var(--gold-deep);
             box-shadow: 0 0 0 3px rgba(246, 205, 91, 0.25);
@@ -239,9 +242,63 @@
             gap: 16px;
         }
 
-        .field-row .field input {
+        .field-row .field input,
+        .field-row .field select {
             text-align: left;
             font-weight: 500;
+        }
+
+        .role-form {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .role-form select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 13px;
+        }
+
+        .role-form button {
+            background: #e5e7eb;
+            color: var(--text-main);
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .role-form button:hover {
+            background: #d1d5db;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .role-badge.admin {
+            background: rgba(246, 205, 91, 0.2);
+            color: var(--gold-deep);
+        }
+
+        .role-badge.user {
+            background: #e5e7eb;
+            color: var(--text-soft);
+        }
+
+        .actions-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .submit-row {
@@ -263,8 +320,15 @@
             filter: brightness(1.03);
         }
 
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         table.data-table {
             width: 100%;
+            min-width: 520px;
             border-collapse: collapse;
             font-size: 14px;
         }
@@ -314,29 +378,80 @@
             margin-top: 18px;
         }
 
-        @media (max-width: 720px) {
+        /* Tablet: la barra lateral se mantiene fija pero mas angosta para dejar
+           mas espacio al contenido (ej. iPad en horizontal, laptops pequeños). */
+        @media (max-width: 1100px) {
+            .sidebar {
+                width: 210px;
+                padding: 24px 16px;
+            }
+        }
+
+        /* Tablet en vertical / pantallas medianas: la barra lateral pasa a ser
+           una franja horizontal arriba del contenido, igual que en movil. */
+        @media (max-width: 880px) {
             body {
                 flex-direction: column;
             }
 
             .sidebar {
                 width: 100%;
-                padding: 20px;
+                padding: 18px 20px;
                 position: static;
                 height: auto;
                 overflow-y: visible;
+            }
+
+            .sidebar-nav {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+
+            .sidebar-user {
+                margin-top: 18px;
+                padding-top: 16px;
+            }
+
+            .content {
+                padding: 28px clamp(16px, 4vw, 40px);
+            }
+
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Movil: reducimos aun mas el espaciado y compactamos las balotas. */
+        @media (max-width: 640px) {
+            .panel {
+                padding: 20px;
             }
 
             .balls-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .field-row {
-                grid-template-columns: 1fr;
-            }
-
             table.data-table {
                 font-size: 12px;
+            }
+
+            .content .upload-row input[type="file"] {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .actions-cell {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .balls-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-header p {
+                font-size: 13px;
             }
         }
 
@@ -354,6 +469,7 @@
             <li><a href="{{ route('configuracion.historial.index') }}" @class(['active' => request()->routeIs('configuracion.historial.*')])>Resultados anteriores</a></li>
             <li><a href="{{ route('configuracion.imagenes.edit') }}" @class(['active' => request()->routeIs('configuracion.imagenes.*')])>Imagenes de fondo</a></li>
             <li><a href="{{ route('configuracion.textos.edit') }}" @class(['active' => request()->routeIs('configuracion.textos.*')])>Textos del landing</a></li>
+            <li><a href="{{ route('configuracion.usuarios.index') }}" @class(['active' => request()->routeIs('configuracion.usuarios.*')])>Personas registradas</a></li>
         </ul>
 
         <div class="sidebar-user">
@@ -388,5 +504,20 @@
 
         @yield('content')
     </main>
+
+    <script>
+        document.querySelectorAll('.balls-grid input').forEach(function (input) {
+            function pad() {
+                var digits = input.value.replace(/\D/g, '').slice(0, 2);
+                input.value = digits === '' ? '' : digits.padStart(2, '0');
+            }
+
+            input.addEventListener('input', function () {
+                input.value = input.value.replace(/\D/g, '').slice(0, 2);
+            });
+            input.addEventListener('blur', pad);
+            pad();
+        });
+    </script>
 </body>
 </html>

@@ -20,12 +20,12 @@ class PreviousDrawController extends Controller
     {
         $validated = $request->validate([
             'draw_date' => ['required', 'date'],
-            'number_1' => ['required', 'integer', 'between:0,99'],
-            'number_2' => ['required', 'integer', 'between:0,99'],
-            'number_3' => ['required', 'integer', 'between:0,99'],
-            'number_4' => ['required', 'integer', 'between:0,99'],
-            'number_5' => ['required', 'integer', 'between:0,99'],
-            'super_number' => ['required', 'integer', 'between:0,99'],
+            'number_1' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_2' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_3' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_4' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_5' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'super_number' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
         ]);
 
         PreviousDraw::create($validated);

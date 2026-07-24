@@ -6,6 +6,7 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PreviousDrawController;
 use App\Http\Controllers\SiteTextController;
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -34,4 +35,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/configuracion/textos', [SiteTextController::class, 'edit'])->name('configuracion.textos.edit');
     Route::put('/configuracion/textos/{slot}', [SiteTextController::class, 'update'])->name('configuracion.textos.update');
+
+    Route::get('/configuracion/usuarios', [UserManagementController::class, 'index'])->name('configuracion.usuarios.index');
+    Route::put('/configuracion/usuarios/{user}', [UserManagementController::class, 'updateRole'])->name('configuracion.usuarios.update');
+    Route::delete('/configuracion/usuarios/{user}', [UserManagementController::class, 'destroy'])->name('configuracion.usuarios.destroy');
 });

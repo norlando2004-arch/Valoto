@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
-                'email' => 'Esas credenciales no coinciden con ningun registro.',
+                'password' => 'La contraseña es incorrecta, intentarlo de nuevo.',
             ]);
         }
 

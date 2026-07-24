@@ -19,12 +19,12 @@
                         <div class="field">
                             <label for="number_{{ $i }}">Bola {{ $i }}</label>
                             <input
-                                type="number"
-                                min="0"
-                                max="99"
+                                type="text"
+                                inputmode="numeric"
+                                maxlength="2"
                                 id="number_{{ $i }}"
                                 name="number_{{ $i }}"
-                                value="{{ old('number_' . $i, $draw->{'number_' . $i}) }}"
+                                value="{{ str_pad(old('number_' . $i, $draw->{'number_' . $i}), 2, '0', STR_PAD_LEFT) }}"
                                 required
                             >
                         </div>
@@ -33,12 +33,12 @@
                     <div class="field super">
                         <label for="super_number">Superbalota</label>
                         <input
-                            type="number"
-                            min="0"
-                            max="99"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="2"
                             id="super_number"
                             name="super_number"
-                            value="{{ old('super_number', $draw->super_number) }}"
+                            value="{{ str_pad(old('super_number', $draw->super_number), 2, '0', STR_PAD_LEFT) }}"
                             required
                         >
                     </div>

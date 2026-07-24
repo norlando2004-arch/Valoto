@@ -6,7 +6,6 @@ use App\Models\DrawResult;
 use App\Models\PreviousDraw;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ConfiguracionController extends Controller
@@ -21,16 +20,14 @@ class ConfiguracionController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'number_1' => ['required', 'integer', 'between:0,99'],
-            'number_2' => ['required', 'integer', 'between:0,99'],
-            'number_3' => ['required', 'integer', 'between:0,99'],
-            'number_4' => ['required', 'integer', 'between:0,99'],
-            'number_5' => ['required', 'integer', 'between:0,99'],
-            'super_number' => ['required', 'integer', 'between:0,99'],
-            'draw_number' => ['required', 'integer', 'min:1', Rule::unique('previous_draws', 'draw_number')],
+            'number_1' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_2' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_3' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_4' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'number_5' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'super_number' => ['required', 'regex:/^\d{1,2}$/', 'between:0,99'],
+            'draw_number' => ['required', 'integer', 'min:1'],
             'draw_date' => ['required', 'date'],
-        ], [
-            'draw_number.unique' => 'Ese numero de sorteo ya fue usado en un resultado anterior. Ingresa uno diferente.',
         ]);
 
         PreviousDraw::create($validated);
